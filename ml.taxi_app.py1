@@ -1,0 +1,62 @@
+Great 👍 Here’s the complete Taxi Fare Prediction App code (Streamlit + ML) in number-wise format:
+🔹 Full Code
+import streamlit as st
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score, mean_squared_error
+st.title("PragyanAI Taxi Fare Prediction App (End-to-End ML)")
+🔹 Load Data
+@st.cache_data
+def load_data():
+    data = pd.read_csv("taxis.csv")
+    return data
+data = load_data()
+🔹 Show Dataset
+st.subheader("Dataset Preview")
+st.write(data.head())
+🔹 Feature Selection
+st.subheader("Feature Selection")
+features = data.drop("fare_amount", axis=1)
+target = data["fare_amount"]
+🔹 Train Test Split
+X_train, X_test, y_train, y_test = train_test_split(features, target, test_size=0.2, random_state=42)
+🔹 Model Training
+model = LinearRegression()
+model.fit(X_train, y_train)
+🔹 Predictions
+y_pred = model.predict(X_test)
+🔹 Evaluation
+st.subheader("Model Evaluation")
+st.write("R2 Score:", r2_score(y_test, y_pred))
+st.write("Mean Squared Error:", mean_squared_error(y_test, y_pred))
+🔹 Visualization
+st.subheader("Actual vs Predicted")
+fig, ax = plt.subplots()
+ax.scatter(y_test, y_pred)
+ax.set_xlabel("Actual Fare")
+ax.set_ylabel("Predicted Fare")
+st.pyplot(fig)
+🔹 User Input for Prediction
+st.subheader("Predict Taxi Fare")
+passenger_count = st.number_input("Passenger Count", min_value=1, max_value=6, value=1)
+distance = st.number_input("Distance (km)", min_value=0.0, value=1.0)
+🔹 Make Prediction
+if st.button("Predict Fare"):
+    input_data = np.array([[passenger_count, distance]])
+    prediction = model.predict(input_data)
+    st.success(f"Estimated Fare: {prediction[0]:.2f}")
+⚠️ Important Note:
+Your dataset must have columns like:
+passenger_count
+distance
+fare_amount
+▶️ Run the app:
+
+streamlit run ml_taxi_app.py
+If you want, I can also: ✅ Fix your dataset columns
+✅ Add map + pickup/drop location
+✅ Improve accuracy (Random Forest / XGBoost)
+Just tell me 👍
